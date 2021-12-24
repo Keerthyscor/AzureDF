@@ -19,6 +19,13 @@
 						"referenceName": "tgt",
 						"type": "DatasetReference"
 					},
+					"logStorageSettings": {
+						"linkedServiceName": {
+							"referenceName": "AzureDataLakeStorage_tgt",
+							"type": "LinkedServiceReference"
+						},
+						"path": "kirandl82/tgt"
+					},
 					"enableLogging": true,
 					"storeSettings": {
 						"type": "AzureBlobFSReadSettings",
