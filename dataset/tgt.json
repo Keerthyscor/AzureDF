@@ -1,0 +1,19 @@
+{
+	"name": "tgt",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage_tgt",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "de3fcd42-a252-486a-b794-4267ee9e4be5.csv",
+				"folderPath": "tgt/ab5711bc-44c8-4547-880c-264128bd2a2b",
+				"fileSystem": "kirandl82"
+			}
+		}
+	}
+}
