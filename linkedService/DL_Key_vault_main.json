@@ -1,0 +1,18 @@
+{
+	"name": "DL_Key_vault_main",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://kiranst82.dfs.core.windows.net",
+			"accountKey": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "key_vault_main",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "kiran82dl"
+			}
+		}
+	}
+}
