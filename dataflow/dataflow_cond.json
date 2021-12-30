@@ -1,0 +1,51 @@
+{
+	"name": "dataflow_cond",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DLsalesUSUKINDYEAR",
+						"type": "DatasetReference"
+					},
+					"name": "SrcUSUKYEAR"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "TGTUSAUKYEAR",
+						"type": "DatasetReference"
+					},
+					"name": "USUK"
+				},
+				{
+					"dataset": {
+						"referenceName": "TGTUSAUKYEAR",
+						"type": "DatasetReference"
+					},
+					"name": "USIND"
+				}
+			],
+			"transformations": [
+				{
+					"name": "ConditionalSplit1"
+				},
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "Sort1"
+				},
+				{
+					"name": "Select1"
+				},
+				{
+					"name": "Join1"
+				}
+			],
+			"script": "source(output(\n\t\tCountry as string,\n\t\tYear as string,\n\t\tProduct_Type as string,\n\t\tSales as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tpartitionBy('hash', 1)) ~> SrcUSUKYEAR\nSrcUSUKYEAR split(Country=='USA' || Country=='UK',\n\tCountry=='USA' || Country=='IND',\n\tdisjoint: true,\n\tpartitionBy('hash', 1)) ~> ConditionalSplit1@(USUK, USIND, DEFAULT)\nConditionalSplit1@USIND derive(YearLast2 = substring(trim(Year,''),2),\n\tpartitionBy('hash', 1)) ~> DerivedColumn1\nConditionalSplit1@USUK sort(asc(Country, true),\n\tpartitionBy('hash', 1)) ~> Sort1\nSort1 select(mapColumn(\n\t\tCountry,\n\t\tYear,\n\t\tSales\n\t),\n\tpartitionBy('hash', 1),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nSelect1, ConditionalSplit1@USIND join(Select1@Country == ConditionalSplit1@USIND@Country\n\t&& Select1@Year == ConditionalSplit1@USIND@Year,\n\tjoinType:'inner',\n\tpartitionBy('hash', 1),\n\tbroadcast: 'auto')~> Join1\nJoin1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tName as string,\n\t\tCategory as string,\n\t\tStatus as string,\n\t\tError as string\n\t),\n\tpartitionFileNames:['US_UK.txt'],\n\tumask: 0022,\n\tpreCommands: [],\n\tpostCommands: [],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tpartitionBy('hash', 1)) ~> USUK\nDerivedColumn1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tName as string,\n\t\tCategory as string,\n\t\tStatus as string,\n\t\tError as string\n\t),\n\tpartitionFileNames:['USIND'],\n\tumask: 0022,\n\tpreCommands: [],\n\tpostCommands: [],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tpartitionBy('hash', 1)) ~> USIND"
+		}
+	}
+}
