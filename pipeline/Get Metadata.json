@@ -16,21 +16,12 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "copy2dl",
+						"referenceName": "AzureSqlTable1",
 						"type": "DatasetReference"
 					},
 					"fieldList": [
-						"size"
-					],
-					"storeSettings": {
-						"type": "AzureBlobFSReadSettings",
-						"recursive": true,
-						"enablePartitionDiscovery": false
-					},
-					"formatSettings": {
-						"type": "DelimitedTextReadSettings",
-						"skipLineCount": 0
-					}
+						"structure"
+					]
 				}
 			}
 		],
