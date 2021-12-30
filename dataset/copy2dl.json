@@ -10,8 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "person_5",
-				"folderPath": "tgt",
+				"fileName": "Sales_File_2014_2019_USA_UK_IND.csv",
+				"folderPath": "src",
 				"fileSystem": "kirandl82"
 			},
 			"columnDelimiter": ",",
