@@ -11,11 +11,20 @@
 		"AzureDataLakeStorage_tgt_accountKey": {
 			"value": ""
 		},
+		"AzureSqlDatabase1_connectionString": {
+			"value": ""
+		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"value": "https://kiranst82.dfs.core.windows.net"
 		},
 		"AzureDataLakeStorage_tgt_properties_typeProperties_url": {
 			"value": "https://kiranst82.dfs.core.windows.net"
+		},
+		"DL_Key_vault_main_properties_typeProperties_url": {
+			"value": "https://kiranst82.dfs.core.windows.net"
+		},
+		"key_vault_main_properties_typeProperties_baseUrl": {
+			"value": "https://kiran82.vault.azure.net/"
 		},
 		"containerUri": {
 			"value": ""

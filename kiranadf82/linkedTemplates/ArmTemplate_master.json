@@ -15,6 +15,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage_tgt'"
 		},
+		"AzureSqlDatabase1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase1'"
+		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://kiranst82.dfs.core.windows.net"
@@ -22,6 +26,14 @@
 		"AzureDataLakeStorage_tgt_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://kiranst82.dfs.core.windows.net"
+		},
+		"DL_Key_vault_main_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://kiranst82.dfs.core.windows.net"
+		},
+		"key_vault_main_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://kiran82.vault.azure.net/"
 		},
 		"containerUri": {
 			"type": "string",
@@ -56,15 +68,44 @@
 					"AzureDataLakeStorage_tgt_accountKey": {
 						"value": "[parameters('AzureDataLakeStorage_tgt_accountKey')]"
 					},
+					"AzureSqlDatabase1_connectionString": {
+						"value": "[parameters('AzureSqlDatabase1_connectionString')]"
+					},
 					"AzureDataLakeStorage1_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]"
 					},
 					"AzureDataLakeStorage_tgt_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorage_tgt_properties_typeProperties_url')]"
+					},
+					"key_vault_main_properties_typeProperties_baseUrl": {
+						"value": "[parameters('key_vault_main_properties_typeProperties_baseUrl')]"
+					},
+					"DL_Key_vault_main_properties_typeProperties_url": {
+						"value": "[parameters('DL_Key_vault_main_properties_typeProperties_url')]"
 					}
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "kiranadf82_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'kiranadf82_ArmTemplate_0')]"
+			]
 		}
 	]
 }
